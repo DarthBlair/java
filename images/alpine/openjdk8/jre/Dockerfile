@@ -18,17 +18,17 @@ RUN apk add --update \
  && echo "securerandom.source=file:/dev/urandom" >> /usr/lib/jvm/default-jvm/jre/lib/security/java.security
 
 # Agent bond including Jolokia and jmx_exporter
-ADD agent-bond-opts /opt/run-java-options
+ADD images/alpine/openjdk8/jre/agent-bond-opts /opt/run-java-options
 RUN mkdir -p /opt/agent-bond \
  && curl https://repo.maven.apache.org/maven2/io/fabric8/agent-bond-agent/1.2.0/agent-bond-agent-1.2.0.jar \
           -o /opt/agent-bond/agent-bond.jar \
  && chmod 444 /opt/agent-bond/agent-bond.jar \
  && chmod 755 /opt/run-java-options
-ADD jmx_exporter_config.yml /opt/agent-bond/
+ADD images/alpine/openjdk8/jre/jmx_exporter_config.yml /opt/agent-bond/
 EXPOSE 8778 9779
 
 # Add run script as /deployments/run-java.sh and make it executable
-COPY run-java.sh /deployments/
+COPY images/alpine/openjdk8/jre/run-java.sh /deployments/
 RUN chmod 755 /deployments/run-java.sh
 
 
